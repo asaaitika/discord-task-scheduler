@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { describe, it, expect, jest, beforeEach } from '@jest/globals';
 import axios from 'axios';
 import discordService from '../../services/discordService';
@@ -10,7 +11,7 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 // Mock retry utility
 jest.mock('../../utils/retry', () => ({
-  retryWithRateLimit: jest.fn((fn) => fn()),
+  retryWithRateLimit: jest.fn().mockImplementation((fn) => fn()),
   RetryError: class RetryError extends Error {
     constructor(message: string, public attempts: number, public lastError: Error) {
       super(message);
@@ -137,7 +138,7 @@ describe('DiscordService', () => {
         },
       };
 
-      mockedAxios.isAxiosError = jest.fn().mockReturnValue(true);
+      (axios.isAxiosError as unknown as jest.Mock) = jest.fn().mockReturnValue(true);
       mockedAxios.post.mockRejectedValue(axiosError);
 
       const result = await discordService.sendTaskNotification(mockTask);
@@ -155,7 +156,7 @@ describe('DiscordService', () => {
         request: {},
       };
 
-      mockedAxios.isAxiosError = jest.fn().mockReturnValue(true);
+      (axios.isAxiosError as unknown as jest.Mock) = jest.fn().mockReturnValue(true);
       mockedAxios.post.mockRejectedValue(axiosError);
 
       const result = await discordService.sendTaskNotification(mockTask);
@@ -173,7 +174,7 @@ describe('DiscordService', () => {
         message: 'Request setup failed',
       };
 
-      mockedAxios.isAxiosError = jest.fn().mockReturnValue(true);
+      (axios.isAxiosError as unknown as jest.Mock) = jest.fn().mockReturnValue(true);
       mockedAxios.post.mockRejectedValue(axiosError);
 
       const result = await discordService.sendTaskNotification(mockTask);
@@ -189,7 +190,7 @@ describe('DiscordService', () => {
       const consoleErrorSpy = jest.spyOn(console, 'error');
       const genericError = new Error('Unknown error');
 
-      mockedAxios.isAxiosError = jest.fn().mockReturnValue(false);
+      (axios.isAxiosError as unknown as jest.Mock) = jest.fn().mockReturnValue(false);
       mockedAxios.post.mockRejectedValue(genericError);
 
       const result = await discordService.sendTaskNotification(mockTask);

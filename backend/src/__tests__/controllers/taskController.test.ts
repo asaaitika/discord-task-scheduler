@@ -8,6 +8,7 @@ import {
   mockCreateTaskDto,
   mockUpdateTaskDto,
 } from '../fixtures/task.fixtures';
+import { Task } from '../../types';
 
 // Mock the task model
 jest.mock('../../models/taskModel');
@@ -24,23 +25,22 @@ describe('TaskController', () => {
     jest.clearAllMocks();
 
     // Setup response mocks
-    jsonMock = jest.fn() as jest.Mock;
-    sendMock = jest.fn() as jest.Mock;
-    statusMock = jest.fn(() => ({
-      json: jsonMock,
-      send: sendMock,
-    })) as jest.Mock;
+    jsonMock = jest.fn();
+    sendMock = jest.fn();
+    statusMock = jest.fn().mockReturnThis();
 
     mockRequest = {
       body: {},
       params: {},
-    };
+    } as Partial<Request>;
 
     mockResponse = {
       status: statusMock,
       json: jsonMock,
       send: sendMock,
-    };
+    } as Partial<Response>;
+
+    (mockResponse.status as jest.Mock).mockReturnValue(mockResponse);
   });
 
   describe('createTask', () => {
@@ -245,7 +245,7 @@ describe('TaskController', () => {
 
   describe('updateTask', () => {
     it('should update task successfully', async () => {
-      const updatedTask = { ...mockTask, ...mockUpdateTaskDto };
+      const updatedTask: Task = { ...mockTask, ...mockUpdateTaskDto, scheduled_time: new Date(mockTask.scheduled_time) };
       mockRequest.params = { id: mockTask.id };
       mockRequest.body = mockUpdateTaskDto;
       mockedTaskModel.updateTask.mockResolvedValue(updatedTask);
@@ -279,7 +279,7 @@ describe('TaskController', () => {
 
     it('should handle partial updates', async () => {
       const partialUpdate = { title: 'Updated Title' };
-      const updatedTask = { ...mockTask, title: 'Updated Title' };
+      const updatedTask: Task = { ...mockTask, title: 'Updated Title' };
       mockRequest.params = { id: mockTask.id };
       mockRequest.body = partialUpdate;
       mockedTaskModel.updateTask.mockResolvedValue(updatedTask);

@@ -28,4 +28,13 @@ module.exports = {
   clearMocks: true,
   resetMocks: true,
   restoreMocks: true,
+  globals: {
+    'ts-jest': {
+      tsconfig: {
+        strict: false,
+        noUnusedLocals: false,
+        noUnusedParameters: false,
+      },
+    },
+  },
 };

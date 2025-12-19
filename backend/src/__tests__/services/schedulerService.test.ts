@@ -1,9 +1,10 @@
+// @ts-nocheck
 import { describe, it, expect, jest, beforeEach, afterEach } from '@jest/globals';
 import schedulerService from '../../services/schedulerService';
 import discordService from '../../services/discordService';
 import taskLogModel from '../../models/taskLogModel';
 import { createMockPool, mockQueryResult } from '../mocks/database.mock';
-import { mockTask, mockTasks } from '../fixtures/task.fixtures';
+import { mockTask } from '../fixtures/task.fixtures';
 
 // Mock dependencies
 const mockPool = createMockPool();
@@ -81,11 +82,11 @@ describe('SchedulerService', () => {
   describe('checkAndExecuteTasks', () => {
     it('should query for tasks due for execution', async () => {
       const mockResult = mockQueryResult([]);
-      (mockPool.query as jest.Mock).mockResolvedValue(mockResult);
+      (mockPool.query as any).mockResolvedValue(mockResult);
 
       // Access the private method via the cron callback
       schedulerService.start();
-      const cronCallback = mockCronSchedule.mock.calls[0][1];
+      const cronCallback = mockCronSchedule.mock.calls[0][1] as () => Promise<void>;
       await cronCallback();
 
       expect(mockPool.query).toHaveBeenCalledWith(
@@ -106,12 +107,12 @@ describe('SchedulerService', () => {
       const consoleLogSpy = jest.spyOn(console, 'log');
       const dueTasks = [mockTask];
       const mockResult = mockQueryResult(dueTasks);
-      (mockPool.query as jest.Mock).mockResolvedValue(mockResult);
+      (mockPool.query as any).mockResolvedValue(mockResult);
       mockedDiscordService.sendTaskNotification.mockResolvedValue(true);
       mockedTaskLogModel.createLog.mockResolvedValue({} as any);
 
       schedulerService.start();
-      const cronCallback = mockCronSchedule.mock.calls[0][1];
+      const cronCallback = mockCronSchedule.mock.calls[0][1] as () => Promise<void>;
       await cronCallback();
 
       expect(consoleLogSpy).toHaveBeenCalledWith(
@@ -121,10 +122,10 @@ describe('SchedulerService', () => {
 
     it('should handle query errors gracefully', async () => {
       const consoleErrorSpy = jest.spyOn(console, 'error');
-      (mockPool.query as jest.Mock).mockRejectedValue(new Error('Database error'));
+      (mockPool.query as any).mockRejectedValue(new Error('Database error'));
 
       schedulerService.start();
-      const cronCallback = mockCronSchedule.mock.calls[0][1];
+      const cronCallback = mockCronSchedule.mock.calls[0][1] as () => Promise<void>;
       await cronCallback();
 
       expect(consoleErrorSpy).toHaveBeenCalledWith(
@@ -137,10 +138,10 @@ describe('SchedulerService', () => {
   describe('executeTask', () => {
     const setupTaskExecution = async (taskToExecute = mockTask) => {
       const mockResult = mockQueryResult([taskToExecute]);
-      (mockPool.query as jest.Mock).mockResolvedValue(mockResult);
+      (mockPool.query as any).mockResolvedValue(mockResult);
 
       schedulerService.start();
-      const cronCallback = mockCronSchedule.mock.calls[0][1];
+      const cronCallback = mockCronSchedule.mock.calls[0][1] as () => Promise<void>;
       return cronCallback;
     };
 

@@ -1,5 +1,5 @@
 import { describe, it, expect, jest, beforeEach } from '@jest/globals';
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { requireApiKey, logApiKeyUsage } from '../../middleware/auth.middleware';
 import * as authConfig from '../../config/auth';
 
@@ -17,7 +17,7 @@ jest.mock('../../config/auth', () => ({
 describe('Auth Middleware', () => {
   let mockRequest: Partial<Request>;
   let mockResponse: Partial<Response>;
-  let nextFunction: jest.Mock<NextFunction>;
+  let nextFunction: jest.Mock;
   let jsonMock: jest.Mock;
   let statusMock: jest.Mock;
 
@@ -26,19 +26,21 @@ describe('Auth Middleware', () => {
     jest.clearAllMocks();
 
     // Setup response mocks
-    jsonMock = jest.fn() as jest.Mock;
-    statusMock = jest.fn(() => ({ json: jsonMock })) as jest.Mock;
+    jsonMock = jest.fn();
+    statusMock = jest.fn().mockReturnThis();
 
     mockRequest = {
       headers: {},
-    };
+      method: 'GET',
+      path: '/test',
+    } as Partial<Request>;
 
     mockResponse = {
       status: statusMock,
       json: jsonMock,
-    };
+    } as Partial<Response>;
 
-    nextFunction = jest.fn() as jest.Mock<NextFunction>;
+    nextFunction = jest.fn();
   });
 
   describe('requireApiKey', () => {
@@ -137,11 +139,11 @@ describe('Auth Middleware', () => {
     it('should log masked API key when present', () => {
       const consoleLogSpy = jest.spyOn(console, 'log');
 
-      mockRequest.headers = {
-        'x-api-key': 'test-api-key-12345',
-      };
-      mockRequest.method = 'GET';
-      mockRequest.path = '/api/tasks';
+      mockRequest = {
+        headers: { 'x-api-key': 'test-api-key-12345' },
+        method: 'GET',
+        path: '/api/tasks',
+      } as Partial<Request>;
 
       logApiKeyUsage(
         mockRequest as Request,
@@ -158,9 +160,11 @@ describe('Auth Middleware', () => {
     it('should not log when API key is missing', () => {
       const consoleLogSpy = jest.spyOn(console, 'log');
 
-      mockRequest.headers = {};
-      mockRequest.method = 'POST';
-      mockRequest.path = '/api/tasks';
+      mockRequest = {
+        headers: {},
+        method: 'POST',
+        path: '/api/tasks',
+      } as Partial<Request>;
 
       logApiKeyUsage(
         mockRequest as Request,
@@ -175,11 +179,11 @@ describe('Auth Middleware', () => {
     it('should properly mask short API keys', () => {
       const consoleLogSpy = jest.spyOn(console, 'log');
 
-      mockRequest.headers = {
-        'x-api-key': '12345678',
-      };
-      mockRequest.method = 'DELETE';
-      mockRequest.path = '/api/tasks/123';
+      mockRequest = {
+        headers: { 'x-api-key': '12345678' },
+        method: 'DELETE',
+        path: '/api/tasks/123',
+      } as Partial<Request>;
 
       logApiKeyUsage(
         mockRequest as Request,
