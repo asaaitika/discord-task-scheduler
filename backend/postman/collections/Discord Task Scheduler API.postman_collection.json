@@ -1,0 +1,1428 @@
+{
+  "info": {
+    "_postman_id": "252b2377-5241-4c79-a816-7083f214821a",
+    "name": "Discord Task Scheduler API",
+    "description": "API documentation for Discord Task Scheduler - manage scheduled tasks with Discord webhook notifications",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "id": "e70181ef-7c9f-4999-a472-880720588b5f",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "health"
+          ]
+        },
+        "description": "Check if the server is running. No authentication required."
+      },
+      "response": [
+        {
+          "id": "f50ababc-e4d2-470a-bdf3-d32005c8729c",
+          "name": "Success",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "54"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"36-Tt0Wx9VanaOs1HvA8afcK1mlyBc\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 19 Dec 2025 05:47:29 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"status\": \"ok\",\n    \"timestamp\": \"2025-12-19T05:47:29.258Z\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Get All Tasks",
+      "id": "de388e11-d29e-4b2d-8e85-c6fdd6d70c69",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{api_key}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/tasks",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "tasks"
+          ]
+        },
+        "description": "Retrieve all tasks from the database."
+      },
+      "response": [
+        {
+          "id": "d0766620-c612-4404-a307-d27186bbd816",
+          "name": "Success",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tasks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "788"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"314-2q2FH2aCPTiO7z+MIiqO+A4M4RU\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 19 Dec 2025 05:53:16 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"id\": \"a333c4af-9c57-415e-ba8c-644d373634b3\",\n        \"title\": \"Daily Standup Reminder For Orange Squad\",\n        \"description\": \"Time for the daily standup meeting!\",\n        \"scheduled_time\": \"2025-12-22T03:00:00.000Z\",\n        \"discord_webhook_url\": \"https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN\",\n        \"is_completed\": false,\n        \"is_active\": true,\n        \"created_at\": \"2025-12-19T05:51:29.256Z\",\n        \"updated_at\": \"2025-12-19T05:51:29.256Z\"\n    },\n    {\n        \"id\": \"2edf68fd-bdc8-4a6f-81c1-8ca63da2c10c\",\n        \"title\": \"Daily Standup Reminder\",\n        \"description\": \"Time for the daily standup meeting!\",\n        \"scheduled_time\": \"2025-12-20T03:00:00.000Z\",\n        \"discord_webhook_url\": \"https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN\",\n        \"is_completed\": false,\n        \"is_active\": true,\n        \"created_at\": \"2025-12-19T05:50:51.623Z\",\n        \"updated_at\": \"2025-12-19T05:50:51.623Z\"\n    }\n]"
+        },
+        {
+          "id": "b21a59f3-bd47-45b6-9aab-1ab10edf894c",
+          "name": "Success: Zero Data",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tasks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "2"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2-l9Fw4VUO7kr8CvBlt4zaMCqXZ0w\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 19 Dec 2025 05:47:42 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "[]"
+        },
+        {
+          "id": "09e9f2cd-0996-4f35-8557-8b8d4f41bd61",
+          "name": "Failed: API Key",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tasks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks"
+              ]
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "92"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"5c-PJAfu/czlvS2gICt2yb4LMBjWaA\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 19 Dec 2025 05:50:18 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"error\": \"Unauthorized\",\n    \"message\": \"Invalid or missing API key\",\n    \"requiredHeader\": \"x-api-key\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Get Active Tasks",
+      "id": "c54b1656-3164-4e59-b664-aeb96d08a16a",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{api_key}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/tasks/active",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "tasks",
+            "active"
+          ]
+        },
+        "description": "Retrieve only active (uncompleted) tasks."
+      },
+      "response": [
+        {
+          "id": "10f038b7-aa70-426c-8f85-20afc330313c",
+          "name": "Success",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tasks/active",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks",
+                "active"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "403"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"193-pdtJknTwQ3KrgERuqB/OokmLHMw\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 19 Dec 2025 05:56:20 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"id\": \"a333c4af-9c57-415e-ba8c-644d373634b3\",\n        \"title\": \"Daily Standup Reminder For Orange Squad\",\n        \"description\": \"Time for the daily standup meeting!\",\n        \"scheduled_time\": \"2025-12-22T03:00:00.000Z\",\n        \"discord_webhook_url\": \"https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN\",\n        \"is_completed\": false,\n        \"is_active\": true,\n        \"created_at\": \"2025-12-19T05:51:29.256Z\",\n        \"updated_at\": \"2025-12-19T05:51:29.256Z\"\n    }\n]"
+        },
+        {
+          "id": "ec44d36a-20cb-4182-b8cb-815f3512cc41",
+          "name": "Success: Zero Data",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tasks/active",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks",
+                "active"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "2"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2-l9Fw4VUO7kr8CvBlt4zaMCqXZ0w\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 19 Dec 2025 05:47:53 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "[]"
+        },
+        {
+          "id": "34d8796b-dd75-47bc-8091-4b15291fdca0",
+          "name": "Failed: API Key",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tasks/active",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks",
+                "active"
+              ]
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "92"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"5c-PJAfu/czlvS2gICt2yb4LMBjWaA\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 19 Dec 2025 05:51:52 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"error\": \"Unauthorized\",\n    \"message\": \"Invalid or missing API key\",\n    \"requiredHeader\": \"x-api-key\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Get Task by ID",
+      "id": "1c0a4a46-656c-4333-8fb2-2f54af149a10",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{api_key}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/tasks/:id",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "tasks",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "2edf68fd-bdc8-4a6f-81c1-8ca63da2c10c",
+              "description": "UUID of the task"
+            }
+          ]
+        },
+        "description": "Retrieve a specific task by its UUID."
+      },
+      "response": [
+        {
+          "id": "b380fcbb-61d3-4b2c-bfbe-ab071c234cbe",
+          "name": "Success",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tasks/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "2edf68fd-bdc8-4a6f-81c1-8ca63da2c10c",
+                  "description": "UUID of the task"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "384"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"180-PIwPGyyDrqf1ZFeFb/Xb5BVE5hU\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 19 Dec 2025 05:53:02 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": \"2edf68fd-bdc8-4a6f-81c1-8ca63da2c10c\",\n    \"title\": \"Daily Standup Reminder\",\n    \"description\": \"Time for the daily standup meeting!\",\n    \"scheduled_time\": \"2025-12-20T03:00:00.000Z\",\n    \"discord_webhook_url\": \"https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN\",\n    \"is_completed\": false,\n    \"is_active\": true,\n    \"created_at\": \"2025-12-19T05:50:51.623Z\",\n    \"updated_at\": \"2025-12-19T05:50:51.623Z\"\n}"
+        },
+        {
+          "id": "83b82d39-e1d1-4ffb-b8d5-a226eae51994",
+          "name": "Failed: Fetch Task",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tasks/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "your-task-id-here",
+                  "description": "UUID of the task"
+                }
+              ]
+            }
+          },
+          "status": "Internal Server Error",
+          "code": 500,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "32"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"20-gN8Cy5KFoCd0lTHjn0csP2IA2TM\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 19 Dec 2025 05:47:57 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"error\": \"Failed to fetch task\"\n}"
+        },
+        {
+          "id": "82bb38a2-e7d6-46d3-af97-66dde7796b8c",
+          "name": "Failed: API Key",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tasks/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "your-task-id-here",
+                  "description": "UUID of the task"
+                }
+              ]
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "92"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"5c-PJAfu/czlvS2gICt2yb4LMBjWaA\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 19 Dec 2025 05:52:41 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"error\": \"Unauthorized\",\n    \"message\": \"Invalid or missing API key\",\n    \"requiredHeader\": \"x-api-key\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Create Task",
+      "id": "db5688b3-bda9-4590-8aac-a427449e157c",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{api_key}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Daily Standup Reminder For Orange Squad\",\n  \"description\": \"Time for the daily standup meeting!\",\n  \"scheduled_time\": \"2025-12-22T10:00:00\",\n  \"discord_webhook_url\": \"https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/tasks",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "tasks"
+          ]
+        },
+        "description": "Create a new scheduled task. The task will be executed at the specified time and send a Discord notification."
+      },
+      "response": [
+        {
+          "id": "ad8a9a97-c7f1-4632-8d44-ef39aec34c22",
+          "name": "Success",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Daily Standup Reminder\",\n  \"description\": \"Time for the daily standup meeting!\",\n  \"scheduled_time\": \"2025-12-20T10:00:00\",\n  \"discord_webhook_url\": \"https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/tasks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "384"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"180-PIwPGyyDrqf1ZFeFb/Xb5BVE5hU\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 19 Dec 2025 05:50:51 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": \"2edf68fd-bdc8-4a6f-81c1-8ca63da2c10c\",\n    \"title\": \"Daily Standup Reminder\",\n    \"description\": \"Time for the daily standup meeting!\",\n    \"scheduled_time\": \"2025-12-20T03:00:00.000Z\",\n    \"discord_webhook_url\": \"https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN\",\n    \"is_completed\": false,\n    \"is_active\": true,\n    \"created_at\": \"2025-12-19T05:50:51.623Z\",\n    \"updated_at\": \"2025-12-19T05:50:51.623Z\"\n}"
+        },
+        {
+          "id": "02698ade-c668-4f75-a053-8ee87c42bda5",
+          "name": "Failed: API Key",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Daily Standup Reminder\",\n  \"description\": \"Time for the daily standup meeting!\",\n  \"scheduled_time\": \"2025-12-20T10:00:00\",\n  \"discord_webhook_url\": \"https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/tasks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks"
+              ]
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "92"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"5c-PJAfu/czlvS2gICt2yb4LMBjWaA\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 19 Dec 2025 05:49:53 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"error\": \"Unauthorized\",\n    \"message\": \"Invalid or missing API key\",\n    \"requiredHeader\": \"x-api-key\"\n}"
+        },
+        {
+          "id": "ccc22c9d-a999-4006-9a3b-76bbec769e09",
+          "name": "Failed: Missing Required",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Daily Standup Reminder For Orange Squad\",\n  \"description\": \"Time for the daily standup meeting!\",\n  \"scheduled_time\": \"2025-12-22T10:00:00\",\n  \"discord_webhook_url\": \"https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN\"\n}",
+              "options": {
+                "raw": {
+                  "language": "text"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/tasks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "79"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"4f-vdUpZdmgmSOQbZPiahAwTo4KmiA\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 19 Dec 2025 05:51:34 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"error\": \"Missing required fields: title, scheduled_time, discord_webhook_url\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Update Task",
+      "id": "f63f1569-fdbb-4ff0-b641-eb743633a470",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{api_key}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n//   \"title\": \"Updated Task Title\",\n//   \"description\": \"Updated description\",\n  \"scheduled_time\": \"2025-12-21T15:00:00\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/tasks/:id",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "tasks",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "a333c4af-9c57-415e-ba8c-644d373634b3",
+              "description": "UUID of the task to update"
+            }
+          ]
+        },
+        "description": "Update an existing task. You can update any field (title, description, scheduled_time, discord_webhook_url)."
+      },
+      "response": [
+        {
+          "id": "dadd4120-16d1-4758-a68f-0a590cd0e505",
+          "name": "Success",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n//   \"title\": \"Updated Task Title\",\n//   \"description\": \"Updated description\",\n  \"scheduled_time\": \"2025-12-21T15:00:00\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/tasks/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "a333c4af-9c57-415e-ba8c-644d373634b3",
+                  "description": "UUID of the task to update"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "401"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"191-IdLDDPktD73qEHXYYAYINkrA77k\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 19 Dec 2025 05:57:35 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": \"a333c4af-9c57-415e-ba8c-644d373634b3\",\n    \"title\": \"Daily Standup Reminder For Orange Squad\",\n    \"description\": \"Time for the daily standup meeting!\",\n    \"scheduled_time\": \"2025-12-21T08:00:00.000Z\",\n    \"discord_webhook_url\": \"https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN\",\n    \"is_completed\": false,\n    \"is_active\": true,\n    \"created_at\": \"2025-12-19T05:51:29.256Z\",\n    \"updated_at\": \"2025-12-19T05:57:35.725Z\"\n}"
+        },
+        {
+          "id": "7caecf86-1394-478b-8478-e176f903f02f",
+          "name": "Failed: API Key",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Task Title\",\n  \"description\": \"Updated description\",\n  \"scheduled_time\": \"2025-12-21T15:00:00\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/tasks/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "a333c4af-9c57-415e-ba8c-644d373634b3",
+                  "description": "UUID of the task to update"
+                }
+              ]
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "92"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"5c-PJAfu/czlvS2gICt2yb4LMBjWaA\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 19 Dec 2025 05:57:05 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"error\": \"Unauthorized\",\n    \"message\": \"Invalid or missing API key\",\n    \"requiredHeader\": \"x-api-key\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Delete Task",
+      "id": "a53f2c5f-7542-40ec-b86a-7510051a812b",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "{{api_key}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/tasks/:id",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "tasks",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "2edf68fd-bdc8-4a6f-81c1-8ca63da2c10c",
+              "description": "UUID of the task to delete"
+            }
+          ]
+        },
+        "description": "Delete a task permanently from the database."
+      },
+      "response": [
+        {
+          "id": "30c87d2d-551e-4ba1-97c4-c6d2ad8afe3c",
+          "name": "Success",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tasks/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "2edf68fd-bdc8-4a6f-81c1-8ca63da2c10c",
+                  "description": "UUID of the task to delete"
+                }
+              ]
+            }
+          },
+          "status": "No Content",
+          "code": 204,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 19 Dec 2025 05:54:29 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": null
+        },
+        {
+          "id": "ddbda8b1-166e-443c-b35c-a00a4992eaf1",
+          "name": "Failed: API Key",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "{{api_key}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tasks/:id",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "your-task-id-here",
+                  "description": "UUID of the task to delete"
+                }
+              ]
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "92"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"5c-PJAfu/czlvS2gICt2yb4LMBjWaA\""
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 19 Dec 2025 05:53:56 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"error\": \"Unauthorized\",\n    \"message\": \"Invalid or missing API key\",\n    \"requiredHeader\": \"x-api-key\"\n}"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "id": "d770dbf3-4579-43ec-8edf-d74935229306",
+      "key": "base_url",
+      "value": "http://localhost:3001",
+      "type": "string"
+    },
+    {
+      "id": "9c0b5216-43cd-41b7-bf7b-ebcdc054376e",
+      "key": "api_key",
+      "value": "test-api-key-12345",
+      "type": "string"
+    }
+  ]
+}

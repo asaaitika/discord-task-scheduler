@@ -33,7 +33,7 @@ export function requireApiKey(
 // Optional: Middleware for logging API key usage
 export function logApiKeyUsage(
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction
 ): void {
   const apiKey = req.headers[authConfig.headerName.toLowerCase()] as

@@ -23,6 +23,7 @@ A full-stack application for scheduling tasks and sending automated notification
 - Modern React frontend with Next.js
 
 ## Project Structure
+
 ```
 discord-task-scheduler/
 ├── backend/                  # Express.js backend
@@ -37,6 +38,9 @@ discord-task-scheduler/
 │   │   ├── types/           # TypeScript types
 │   │   ├── utils/           # Utility functions (retry logic)
 │   │   └── index.ts         # Entry point
+│   ├── postman/             # Postman API documentation
+│   │   ├── collections/     # Postman collections
+│   │   └── environments/    # Postman environments
 │   ├── scripts/             # Utility scripts
 │   ├── Dockerfile
 │   ├── package.json
@@ -69,6 +73,7 @@ discord-task-scheduler/
 **You MUST follow these steps before running the application:**
 
 #### 1. Start PostgreSQL Container
+
 ```bash
 # Start PostgreSQL
 docker-compose up -d postgres
@@ -78,6 +83,7 @@ docker-compose ps
 ```
 
 #### 2. Create Database and Enable Extensions
+
 ```bash
 # Access PostgreSQL shell
 docker exec -it discord-scheduler-db psql -U postgres
@@ -99,12 +105,14 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 ```
 
 #### 3. Install Backend Dependencies
+
 ```bash
 cd backend
 npm install
 ```
 
 #### 4. Configure Environment Variables
+
 ```bash
 # Copy example env file
 cp .env.example .env
@@ -114,6 +122,7 @@ nano .env
 ```
 
 Minimal `.env` configuration:
+
 ```env
 PORT=3001
 NODE_ENV=development
@@ -132,12 +141,14 @@ API_KEY_HEADER=x-api-key
 ```
 
 #### 5. Run Database Migrations
+
 ```bash
 # Make sure you're in backend folder
 npm run migration:run
 ```
 
 Expected output:
+
 ```
 query: SELECT version()
 query: CREATE TABLE "tasks" ...
@@ -145,6 +156,7 @@ Migration InitialSchema1703001000000 has been executed successfully
 ```
 
 #### 6. Verify Database Setup
+
 ```bash
 # Check tables were created
 docker exec -it discord-scheduler-db psql -U postgres -d discord_scheduler -c "\dt"
@@ -157,6 +169,7 @@ docker exec -it discord-scheduler-db psql -U postgres -d discord_scheduler -c "\
 #### Option 1: Local Development
 
 **Backend:**
+
 ```bash
 cd backend
 npm run dev
@@ -165,6 +178,7 @@ npm run dev
 The backend will run on http://localhost:3001
 
 **Frontend:**
+
 ```bash
 cd frontend
 npm install
@@ -174,6 +188,7 @@ npm run dev
 The frontend will run on http://localhost:3000
 
 #### Option 2: Docker Compose (Full Stack)
+
 ```bash
 # Start all services
 docker-compose up -d
@@ -186,6 +201,7 @@ docker-compose down
 ```
 
 Services will be available at:
+
 - Frontend: http://localhost:3000
 - Backend: http://localhost:3001
 - PostgreSQL: localhost:5432
@@ -193,6 +209,7 @@ Services will be available at:
 ## Environment Variables
 
 ### Backend `.env`
+
 ```env
 # Server
 PORT=3001
@@ -219,6 +236,7 @@ RETRY_INITIAL_DELAY_MS=1000
 ```
 
 ### Frontend `.env`
+
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:3001/api
 ```
@@ -228,6 +246,7 @@ NEXT_PUBLIC_API_URL=http://localhost:3001/api
 ### Authentication
 
 All `/api/*` endpoints require API key authentication via header:
+
 ```bash
 x-api-key: your-api-key-here
 ```
@@ -245,19 +264,59 @@ x-api-key: your-api-key-here
 
 - `GET /health` - Server health check (no auth required)
 
+## API Testing with Postman
+
+### Import Postman Collection
+
+Postman collections and environments are available in `backend/postman/`:
+
+1. **Open Postman**
+2. **Import Collection**:
+   - Click **Import** button
+   - Select `backend/postman/collections/Discord Task Scheduler API.postman_collection.json`
+3. **Import Environment**:
+   - Click **Environments** in sidebar
+   - Click **Import**
+   - Select `backend/postman/environments/Discord Task Scheduler - Local.postman_environment.json`
+4. **Select Environment**:
+   - Choose "Discord Task Scheduler - Local" from dropdown (top right)
+5. **Start Testing**:
+   - Open the collection and click any request
+   - Click **Send** to test
+
+### Environment Variables
+
+The Local environment includes:
+
+- `base_url`: `http://localhost:3001`
+- `api_key`: `test-api-key-12345` (update to match your `.env`)
+
+### Available Requests
+
+- ✅ Health Check (no auth)
+- ✅ Get All Tasks
+- ✅ Get Active Tasks
+- ✅ Get Task by ID
+- ✅ Create Task
+- ✅ Update Task
+- ✅ Delete Task
+
 ## Testing API with cURL
 
 ### Health Check (No Auth)
+
 ```bash
 curl http://localhost:3001/health
 ```
 
 ### Get All Tasks (With Auth)
+
 ```bash
 curl -H "x-api-key: test-api-key-12345" http://localhost:3001/api/tasks
 ```
 
 ### Create a Task
+
 ```bash
 curl -X POST http://localhost:3001/api/tasks \
   -H "Content-Type: application/json" \
@@ -282,6 +341,7 @@ curl -X POST http://localhost:3001/api/tasks \
 ## Database Schema
 
 ### Tasks Table
+
 ```sql
 CREATE TABLE tasks (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -313,18 +373,21 @@ CREATE INDEX idx_tasks_is_active_is_completed ON tasks(is_active, is_completed);
 ### Database Connection Issues
 
 **Error: `database "discord_scheduler" does not exist`**
+
 ```bash
 # Create the database
 docker exec -it discord-scheduler-db psql -U postgres -c "CREATE DATABASE discord_scheduler;"
 ```
 
 **Error: `function uuid_generate_v4() does not exist`**
+
 ```bash
 # Enable UUID extension
 docker exec -it discord-scheduler-db psql -U postgres -d discord_scheduler -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
 ```
 
 **Error: Connection refused**
+
 ```bash
 # Check if PostgreSQL is running
 docker-compose ps
@@ -339,6 +402,7 @@ docker-compose restart postgres
 ### Migration Issues
 
 **Error: Migration already executed**
+
 ```bash
 # Check migration status
 npm run migration:show
@@ -350,6 +414,7 @@ npm run migration:revert
 ### Port Conflicts
 
 If ports 3000, 3001, or 5432 are already in use:
+
 - Change ports in `.env`
 - Update `docker-compose.yml` port mappings
 
@@ -363,6 +428,7 @@ If ports 3000, 3001, or 5432 are already in use:
 ## Development Commands
 
 ### Backend
+
 ```bash
 cd backend
 npm run dev          # Start development server
@@ -375,6 +441,7 @@ npm run migration:show    # Show migration status
 ```
 
 ### Frontend
+
 ```bash
 cd frontend
 npm run dev          # Start development server
@@ -387,11 +454,14 @@ npm run lint         # Run ESLint
 
 1. Update environment variables for production
 2. Generate secure API key:
+
 ```bash
    cd backend
    npx ts-node scripts/generate-api-key.ts
 ```
+
 3. Build and start with Docker Compose:
+
 ```bash
    docker-compose up -d --build
 ```
@@ -407,18 +477,21 @@ MIT
 This project was developed with assistance from AI coding tools as part of the technical assessment requirements.
 
 ### AI Tool Usage Instance #1: Initial Project Setup
+
 **Tool Used**: Claude Code CLI  
 **Purpose**: Generate initial full-stack project structure  
 **Command**: "Bantu saya setup project full-stack untuk aplikasi Discord task scheduler dengan Express.js TypeScript backend, Next.js TypeScript frontend, PostgreSQL database, dan Docker Compose setup"  
 **Result**: Generated complete project structure with proper folder organization, package.json files, and Docker configuration
 
 ### AI Tool Usage Instance #2: Database Migrations & Authentication
+
 **Tool Used**: Claude Code CLI  
 **Purpose**: Add TypeORM migrations, API authentication, and retry logic  
 **Command**: "Tambahin migrations, authentication middleware, sama retry logic ke backend Express yang udah ada. Pakai TypeORM untuk migrations."  
 **Result**: Generated migration files, authentication middleware, and retry utility with exponential backoff
 
 **Files Generated/Modified**:
+
 - `backend/src/config/typeorm.config.ts`
 - `backend/src/middleware/auth.middleware.ts`
 - `backend/src/migrations/1703001000000-InitialSchema.ts`
