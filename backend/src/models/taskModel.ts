@@ -4,8 +4,8 @@ import { Task, CreateTaskDto, UpdateTaskDto } from '../types';
 class TaskModel {
   async createTask(taskData: CreateTaskDto): Promise<Task> {
     const query = `
-      INSERT INTO tasks (title, description, scheduled_time, discord_webhook_url)
-      VALUES ($1, $2, $3, $4)
+      INSERT INTO tasks (title, description, scheduled_time, discord_webhook_url, payload, max_retry)
+      VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING *
     `;
 
@@ -14,6 +14,8 @@ class TaskModel {
       taskData.description,
       taskData.scheduled_time,
       taskData.discord_webhook_url,
+      taskData.payload ? JSON.stringify(taskData.payload) : '{}',
+      taskData.max_retry || 3,
     ];
 
     const result = await pool.query(query, values);
@@ -68,6 +70,24 @@ class TaskModel {
     if (taskData.discord_webhook_url !== undefined) {
       fields.push(`discord_webhook_url = $${paramCount}`);
       values.push(taskData.discord_webhook_url);
+      paramCount++;
+    }
+
+    if (taskData.payload !== undefined) {
+      fields.push(`payload = $${paramCount}`);
+      values.push(JSON.stringify(taskData.payload));
+      paramCount++;
+    }
+
+    if (taskData.max_retry !== undefined) {
+      fields.push(`max_retry = $${paramCount}`);
+      values.push(taskData.max_retry);
+      paramCount++;
+    }
+
+    if (taskData.status !== undefined) {
+      fields.push(`status = $${paramCount}`);
+      values.push(taskData.status);
       paramCount++;
     }
 

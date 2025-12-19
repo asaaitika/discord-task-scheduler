@@ -1,11 +1,12 @@
 import axios, { AxiosError } from 'axios';
-import { DiscordWebhookPayload, Task } from '../types';
+import { Task } from '../types';
 import { retryWithRateLimit, RetryError } from '../utils/retry';
 
 class DiscordService {
-  async sendTaskNotification(task: Task): Promise<boolean> {
+  async sendTaskNotification(task: Task, customPayload?: any): Promise<boolean> {
     try {
-      const payload: DiscordWebhookPayload = {
+      // Use custom payload if provided, otherwise create default
+      const payload: any = customPayload || {
         embeds: [
           {
             title: `Task Reminder: ${task.title}`,
